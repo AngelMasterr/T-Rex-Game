@@ -10,15 +10,18 @@ pygame.display.set_caption("Dino Game")
 
 
 dino_img = pygame.image.load('assets/Dino/DinoStartM.png')
+dino_img = pygame.transform.scale(dino_img, (80, 80))
 cactus_img = pygame.image.load('assets/Cactus/LargeCactus1M.png')
+cactus_img = pygame.transform.scale(cactus_img, (80, 80))
 bird_img = pygame.image.load('assets/Bird/Bird1M.png')
+bird_img = pygame.transform.scale(bird_img, (80, 80))
 
 class Dinosaur:
     def __init__(self, x, y):
         self.x = x
         self.y = y
         self.vel = 0
-        self.jump_vel = 8
+        self.jump_vel = -12
         self.gravity = 0.5
         self.is_jump = False
         self.img = dino_img
@@ -28,11 +31,11 @@ class Dinosaur:
             self.is_jump = True
 
     def move(self):
-        if self.is_jump:
+        if self.is_jump:            
             self.vel += self.gravity
-            self.y += self.vel
-            if self.y >= 100:
-                self.y = 100
+            self.y += self.jump_vel + self.vel
+            if self.y >= 150:
+                self.y = 150
                 self.vel = 0
                 self.is_jump = False
 
@@ -56,7 +59,7 @@ class Bird:
     def __init__(self, x):
         self.x = x
         self.y = random.choice([75, 90, 105])
-        self.vel = 5
+        self.vel = 1
         self.img = bird_img
 
     def move(self):
@@ -66,7 +69,7 @@ class Bird:
         win.blit(self.img, (self.x, self.y))
 
 def game():
-    dino = Dinosaur(50, 100)
+    dino = Dinosaur(50, 150)
     obstacles = []
     score = 0
 
